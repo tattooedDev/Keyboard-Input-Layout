@@ -12,10 +12,41 @@ class ViewController: UIViewController, UITextViewDelegate {
 	
 	@IBOutlet var textView: UITextView!
 	
-	var accessory: UIView!
-	var cancelButton: UIButton!
-	var charactersLeftLabel: UILabel!
-	var sendButton: UIButton!
+    var accessory: UIView = {
+        let accessoryView = UIView(frame: .zero)
+        accessoryView.backgroundColor = UIColor.lightGray
+        accessoryView.alpha = 0.6
+        return accessoryView
+    }()
+    
+    var cancelButton: UIButton = {
+        let cancelButton = UIButton(type: .custom)
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitleColor(UIColor.red, for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped(sender:)), for: .touchUpInside)
+        cancelButton.showsTouchWhenHighlighted = true
+        return cancelButton
+    }()
+    
+    
+    var charactersLeftLabel: UILabel = {
+        let charactersLeftLabel = UILabel()
+        charactersLeftLabel.text = "256"
+        charactersLeftLabel.textColor = UIColor.white
+        return charactersLeftLabel
+        
+    }()
+    
+    var sendButton: UIButton! = {
+        let sendButton = UIButton(type: .custom)
+        sendButton.setTitleColor(UIColor.red, for: .normal)
+        sendButton.setTitle("Send", for: .normal)
+        sendButton.setTitleColor(UIColor.white, for: .disabled)
+        sendButton.addTarget(self, action: #selector(sendButtonTapped(sender:)), for: .touchUpInside)
+        sendButton.showsTouchWhenHighlighted = true
+        sendButton.isEnabled = true
+        return sendButton
+    }()
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
@@ -32,113 +63,40 @@ class ViewController: UIViewController, UITextViewDelegate {
 	}
 	
 	func addAccessory() {
-		let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 45)
-		accessory = UIView(frame: frame)
-		accessory.backgroundColor = UIColor.lightGray
-		accessory.alpha = 0.6
-		accessory.translatesAutoresizingMaskIntoConstraints = false
-		
+        accessory.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 45)
+        accessory.translatesAutoresizingMaskIntoConstraints = false
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        charactersLeftLabel.translatesAutoresizingMaskIntoConstraints = false
+        sendButton.translatesAutoresizingMaskIntoConstraints = false
+				
 		self.textView.inputAccessoryView = accessory
-		
-		cancelButton = UIButton(type: .custom)
-		cancelButton.setTitle("Cancel", for: .normal)
-		cancelButton.setTitleColor(UIColor.red, for: .normal)
-		cancelButton.addTarget(self, action: #selector(cancelButtonTapped(sender:)), for: .touchUpInside)
-		cancelButton.showsTouchWhenHighlighted = true
-		cancelButton.translatesAutoresizingMaskIntoConstraints = false
-		
-		accessory.addSubview(cancelButton)
-		
-		let leadingConstraint = NSLayoutConstraint(item: cancelButton,
-		                                           attribute: .leading,
-		                                           relatedBy: .equal,
-		                                           toItem: accessory,
-		                                           attribute: .leading,
-		                                           multiplier: 1.0,
-		                                           constant: 20)
-		
-		accessory.addConstraint(leadingConstraint)
-		
-		let yConstraint = NSLayoutConstraint(item: cancelButton,
-		                                     attribute: .centerY,
-		                                     relatedBy: .equal,
-		                                     toItem: accessory,
-		                                     attribute: .centerY,
-		                                     multiplier: 1.0,
-		                                     constant: 0)
-		
-		accessory.addConstraint(yConstraint)
-		
-		charactersLeftLabel = UILabel()
-		charactersLeftLabel.text = "256"
-		charactersLeftLabel.textColor = UIColor.white
-		charactersLeftLabel.translatesAutoresizingMaskIntoConstraints = false
-		
-		accessory.addSubview(charactersLeftLabel)
-		
-		let centerXConstraint = NSLayoutConstraint(item: charactersLeftLabel,
-		                                           attribute: .centerX,
-		                                           relatedBy: .equal,
-		                                           toItem: accessory,
-		                                           attribute: .centerX,
-		                                           multiplier: 1.0,
-		                                           constant: 0)
-		
-		accessory.addConstraint(centerXConstraint)
-		
-		let centerYConstraint = NSLayoutConstraint(item: charactersLeftLabel,
-		                                           attribute: .centerY,
-		                                           relatedBy: .equal,
-		                                           toItem: accessory,
-		                                           attribute: .centerY,
-		                                           multiplier: 1.0,
-		                                           constant: 0)
-		
-		accessory.addConstraint(centerYConstraint)
-		
-		sendButton = UIButton(type: .custom)
-		sendButton.setTitleColor(UIColor.red, for: .normal)
-		sendButton.setTitle("Send", for: .normal)
-		sendButton.setTitleColor(UIColor.white, for: .disabled)
-		sendButton.addTarget(self, action: #selector(sendButtonTapped(sender:)), for: .touchUpInside)
-		sendButton.showsTouchWhenHighlighted = true
-		sendButton.isEnabled = true
-		sendButton.translatesAutoresizingMaskIntoConstraints = false
-		
+
+        accessory.addSubview(cancelButton)
+        accessory.addSubview(charactersLeftLabel)
 		accessory.addSubview(sendButton)
 		
-		let sendTrailingConstraint = NSLayoutConstraint(item: sendButton,
-		                                                attribute: .trailing,
-		                                                relatedBy: .equal,
-		                                                toItem: accessory,
-		                                                attribute: .trailing,
-		                                                multiplier: 1.0,
-		                                                constant: -20)
-		
-		accessory.addConstraint(sendTrailingConstraint)
-		
-		let sendCenterYConstraint = NSLayoutConstraint(item: sendButton,
-		                                               attribute: .centerY,
-		                                               relatedBy: .equal,
-		                                               toItem: accessory,
-		                                               attribute: .centerY,
-		                                               multiplier: 1.0,
-		                                               constant: 0)
-		
-		accessory.addConstraint(sendCenterYConstraint)
-		
+        NSLayoutConstraint.activate([
+            cancelButton.leadingAnchor.constraint(equalTo: accessory.leadingAnchor, constant: 20),
+            cancelButton.centerYAnchor.constraint(equalTo: accessory.centerYAnchor),
+        
+            charactersLeftLabel.centerXAnchor.constraint(equalTo: accessory.centerXAnchor),
+            charactersLeftLabel.centerYAnchor.constraint(equalTo: accessory.centerYAnchor),
+            
+            sendButton.trailingAnchor.constraint(equalTo: accessory.trailingAnchor, constant: -20),
+            sendButton.centerYAnchor.constraint(equalTo: accessory.centerYAnchor)
+            ])
 	}
 	
-	func sendButtonTapped(sender: UIButton) {
+	@objc func sendButtonTapped(sender: UIButton) {
 		self.view.endEditing(true)
 	}
 	
-	func cancelButtonTapped(sender: UIButton) {
+	@objc func cancelButtonTapped(sender: UIButton) {
 		print("Cancel Button Tapped")
 	}
 	
 	func calculateCharacters() {
-		let length = textView.text.characters.count
+		let length = textView.text.count
 		
 		let charsLeft = 256 - length
 		self.charactersLeftLabel.text = "\(charsLeft)"
@@ -147,7 +105,5 @@ class ViewController: UIViewController, UITextViewDelegate {
 	
 	func textViewDidChange(_ textView: UITextView) {
 		calculateCharacters()
-	}
-	
+	}	
 }
-
