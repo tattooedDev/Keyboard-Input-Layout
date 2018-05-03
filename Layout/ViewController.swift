@@ -12,14 +12,14 @@ class ViewController: UIViewController, UITextViewDelegate {
 	
 	@IBOutlet var textView: UITextView!
 	
-    var accessory: UIView = {
+    let accessory: UIView = {
         let accessoryView = UIView(frame: .zero)
         accessoryView.backgroundColor = UIColor.lightGray
         accessoryView.alpha = 0.6
         return accessoryView
     }()
     
-    var cancelButton: UIButton = {
+    let cancelButton: UIButton = {
         let cancelButton = UIButton(type: .custom)
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.setTitleColor(UIColor.red, for: .normal)
@@ -29,7 +29,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     }()
     
     
-    var charactersLeftLabel: UILabel = {
+    let charactersLeftLabel: UILabel = {
         let charactersLeftLabel = UILabel()
         charactersLeftLabel.text = "256"
         charactersLeftLabel.textColor = UIColor.white
@@ -37,12 +37,12 @@ class ViewController: UIViewController, UITextViewDelegate {
         
     }()
     
-    var sendButton: UIButton! = {
+    let sendButton: UIButton! = {
         let sendButton = UIButton(type: .custom)
         sendButton.setTitleColor(UIColor.red, for: .normal)
         sendButton.setTitle("Send", for: .normal)
         sendButton.setTitleColor(UIColor.white, for: .disabled)
-        sendButton.addTarget(self, action: #selector(sendButtonTapped(sender:)), for: .touchUpInside)
+        sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         sendButton.showsTouchWhenHighlighted = true
         sendButton.isEnabled = true
         return sendButton
@@ -69,7 +69,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         charactersLeftLabel.translatesAutoresizingMaskIntoConstraints = false
         sendButton.translatesAutoresizingMaskIntoConstraints = false
 				
-		self.textView.inputAccessoryView = accessory
+		textView.inputAccessoryView = accessory
 
         accessory.addSubview(cancelButton)
         accessory.addSubview(charactersLeftLabel)
