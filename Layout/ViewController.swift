@@ -14,7 +14,7 @@ class ViewController: UIViewController, UITextViewDelegate {
 	
     let accessory: UIView = {
         let accessoryView = UIView(frame: .zero)
-        accessoryView.backgroundColor = UIColor.lightGray
+        accessoryView.backgroundColor = .lightGray
         accessoryView.alpha = 0.6
         return accessoryView
     }()
@@ -22,8 +22,8 @@ class ViewController: UIViewController, UITextViewDelegate {
     let cancelButton: UIButton = {
         let cancelButton = UIButton(type: .custom)
         cancelButton.setTitle("Cancel", for: .normal)
-        cancelButton.setTitleColor(UIColor.red, for: .normal)
-        cancelButton.addTarget(self, action: #selector(cancelButtonTapped(sender:)), for: .touchUpInside)
+        cancelButton.setTitleColor(.red, for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         cancelButton.showsTouchWhenHighlighted = true
         return cancelButton
     }()
@@ -32,16 +32,16 @@ class ViewController: UIViewController, UITextViewDelegate {
     let charactersLeftLabel: UILabel = {
         let charactersLeftLabel = UILabel()
         charactersLeftLabel.text = "256"
-        charactersLeftLabel.textColor = UIColor.white
+        charactersLeftLabel.textColor = .white
         return charactersLeftLabel
         
     }()
     
     let sendButton: UIButton! = {
         let sendButton = UIButton(type: .custom)
-        sendButton.setTitleColor(UIColor.red, for: .normal)
+        sendButton.setTitleColor(.red, for: .normal)
         sendButton.setTitle("Send", for: .normal)
-        sendButton.setTitleColor(UIColor.white, for: .disabled)
+        sendButton.setTitleColor(.white, for: .disabled)
         sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         sendButton.showsTouchWhenHighlighted = true
         sendButton.isEnabled = true
@@ -87,11 +87,11 @@ class ViewController: UIViewController, UITextViewDelegate {
             ])
 	}
 	
-	@objc func sendButtonTapped(sender: UIButton) {
-		self.view.endEditing(true)
+	@objc func sendButtonTapped() {
+		view.endEditing(true)
 	}
 	
-	@objc func cancelButtonTapped(sender: UIButton) {
+	@objc func cancelButtonTapped() {
 		print("Cancel Button Tapped")
 	}
 	
